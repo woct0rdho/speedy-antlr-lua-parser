@@ -4,6 +4,9 @@ from . import sa_lua
 
 
 class ErrorListener(sa_lua.SA_ErrorListener):
+    def __init__(self):
+        self.has_error = False
+
     def syntaxError(
         self,
         input_stream,
@@ -13,6 +16,7 @@ class ErrorListener(sa_lua.SA_ErrorListener):
         column: int,
         msg: str,
     ):
+        self.has_error = True
         print("Syntax Error!")
         print("    input_stream:", repr(input_stream))
         print("    offendingSymbol:", offendingSymbol, type(offendingSymbol))
@@ -23,4 +27,8 @@ class ErrorListener(sa_lua.SA_ErrorListener):
 
 
 def parse_chunk(s: str):
-    return sa_lua.parse(antlr4.InputStream(s), "chunk", ErrorListener())
+    error_listener = ErrorListener()
+    tree = sa_lua.parse(antlr4.InputStream(s), "chunk", error_listener)
+    if error_listener.has_error:
+        raise ValueError("Error when parsing Lua code")
+    return tree
