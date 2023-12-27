@@ -1,0 +1,28 @@
+name: Build wheels
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_wheels:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      CIBW_ARCHS: auto64
+      CIBW_TEST_COMMAND: "python {project}/tests/test_parse_chunk.py"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build wheel
+        uses: pypa/cibuildwheel@v2.16.2
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./wheelhouse/*.whl
