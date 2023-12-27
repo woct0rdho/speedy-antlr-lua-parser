@@ -43,7 +43,7 @@ parser_ext = setuptools.Extension(
 
 # Define a package
 setuptools.setup(
-    name="speedy_antlr_lua_parser",
+    name="speedy-antlr-lua-parser",
     version="0.0.1",
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
