@@ -47,6 +47,7 @@ setuptools.setup(
     version="0.0.1",
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
-    install_requires=["antlr4-python3-runtime >= 4.13, < 4.14"],
+    install_requires=["antlr4-python3-runtime>=4.13, <4.14"],
+    python_requires=">=3.9",
     ext_modules=[parser_ext],
 )

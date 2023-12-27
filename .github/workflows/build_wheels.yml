@@ -10,11 +10,13 @@ jobs:
   build_wheels:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     env:
       CIBW_ARCHS: auto64
       CIBW_TEST_COMMAND: "python {project}/tests/test_parse_chunk.py"
+      MACOSX_DEPLOYMENT_TARGET: "10.14"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
